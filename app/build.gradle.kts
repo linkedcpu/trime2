@@ -23,7 +23,7 @@ plugins {
 android {
     namespace = "com.osfans.trime"
     compileSdk = 35
-    buildToolsVersion = "35.0.0"
+    buildToolsVersion = "35.0.1"
 // 1. 定义签名配置
     signingConfigs {
         // 使用 findProperty 避免属性缺失时直接崩溃
@@ -40,7 +40,7 @@ android {
     }
     defaultConfig {
         applicationId = "com.nirenr.trime"
-        minSdk = 21
+        minSdk = 24
         targetSdk = 35
         versionCode = 85
         versionName = "0.8.5"
@@ -54,10 +54,10 @@ android {
 
         // --- 新增：注入 APP_KEY ---
         // 从文件中获取，如果文件或 Key 不存在，提供一个默认空字符串，防止编译报错
-        var appKey = project.findProperty("API_KEY") as String
-        buildConfigField("String", "API_KEY", appKey)
-        var appId = project.findProperty("API_ID") as String
-        buildConfigField("String", "API_ID", appId)
+        val appKey = project.findProperty("API_KEY") as? String ?: ""
+        val appId  = project.findProperty("API_ID")  as? String ?: ""
+        buildConfigField("String", "API_KEY", "\"${appKey}\"")
+        buildConfigField("String", "API_ID",  "\"${appId}\"")
         // -------------------------
     }
 
